@@ -1,34 +1,95 @@
-# CD-Script
+# demo(npm-package-monorepo-node)
 
-> 这是一个在持续跟进的仓库，进行webpack5封装， 目前仅支持react运行时，支持less、sass样式编译，打包及vue的支持将在后续做项目的时候持续完善。
+## 简介（Introduction)
 
-## 使用方式
+适用于开发 node 端多包项目模版
 
-### 安装
+## 特性（Feature）
+
+- 开箱即用的`typescript`
+- 支持 `commonjs` 和 `esm` 两种模块类型输出
+- 集成`CI` 自动发包
+- 集成`eslint` 检查
+- 规范`commit message`，支持`commit message`检查
+- 集成`prettier`代码美化
+- 集成`cspell`, 支持拼写检查
+- 集成`@umijs/jest`，支持单元测试用例编写，与测试覆盖率收集
+- 集成自动升级版本号与生成`changeLog.md`
+- 开箱即用`scripts`命令
+- `lerna`自动管理包依赖
+
+## 项目设计结构（Structure）
 
 ```bash
-npm i -g @caidix/cd-scripts
+|- packages
+    |- packageA
+      |- dist # build生成目录
+        |- index.js
+        |- index.d.ts
+      |- src
+        |- index.ts
+        |- CHANGELOG.md
+        |- package.json
+        |- README.md
+        |- tsconfig.json
+        |- __tests__ # 测试目录
+            |- index.test.ts
+    |- packageB
+      |- dist # build生成目录
+        |- index.js
+        |- index.d.ts
+      |- src
+        |- index.ts
+        |- CHANGELOG.md
+        |- package.json
+        |- README.md
+        |- tsconfig.json
+        |- __tests__ # 测试目录
+            |- index.test.ts
+|- .editorconfig
+|- .eslintignore
+|- .eslintrc
+|- .gitignore
+|- .gitlab-ci.yml
+|- .commitlintrc.js # commit信息检查
+|- package.json
+|- .prettierignore
+|- .prettierrc.js
+|- CHANGELOG.md
+|- cspell.json
+|- jest.config.js
+|- lerna.json
+|- README.md
+|- tsconfig.base.json
 ```
 
-### 改造项目
+## 本地开发（Development）
 
-1. 打开package.json,scripts添加如下指令：
+### 克隆仓库
 
-```json
-  "scripts": {
-    "dev": "cd-scripts start",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "format": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
-  },
+```
+git clone xxxx
 ```
 
-2. 在根目录下创建config/config.js文件，cd-scripts命令将会从config.js文件中获取你传入的定制化webpack配置。
+### 首次开发
 
-相关配置：
+- 全局安装 lerna `yarn global add lerna`
+- 修改根目录及子包目录`package.json` 中 `name`、`main`、`module`、`repository`、`author` 的值，其中 `main`、`module` 可不改；
+- 删除原 README.md 内容，书写自己的 README.md；
+- `lerna bootstrap` 安装所有依赖及本地包依赖
+- `yarn dev` 开发模式
+- `yarn build` 打包构建
+- git add . && git commit -m 'feat: xxxx'
+- `yarn version:xxx` 生成需要发包的版本并打上 tag，代码提交到远程
 
-| 参数 | 作用 |
-|  ----  | ----  |
-| devServer| webpack-dev-server入参，通常为proxy代理，post端口号等 |
+### N 次开发
 
-3. 在你的目录下创建.env.development 及 .env.production 文件，它们的作用和传统cli创建时.env的作用相同。在不同环境下为process.env内传入不同的环境变量。变量为 APP_ENV_ 开头的变量将会注入到项目运行时。
+- 修改 packages/xxx 文件
+- git add .
+- git commit -m 'fix(xxx): 修复数据读取错误 bug'
+- git log 查看生成的版本号是否是对的
+- 如果版本号不符合，执行`git reset --hard HEAD^`，删除`yarn version:pre`命令产生的`commit`，继续执行`git tag -d vx.x.x-beta.x`，删除`yarn version:pre`命令产生的`tag`
+- 在重新 git add. && git commit -m 'fix(xxx): 修复数据读取错误 bug'
+- 如果版本号是对的，则提交代码 git push
+
+更多 lerna 使用方式参考[lerna 管理 monorepo 多包项目](/docs/topic/lerna)
