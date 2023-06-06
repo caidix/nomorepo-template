@@ -35,3 +35,10 @@ pnpm changeset pre enter rc      # 发布 rc 版本
     "access": "public"
   },
 ```
+
+### 希望跑脚本需要有哪些常用依赖？
+
+- enquirer
+- execa
+- fs-extra
+- chalk
