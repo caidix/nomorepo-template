@@ -1,12 +1,10 @@
 {
-  "name": "cd-root",
+  "name": "yarn-lerna-template",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
-  "description": "a monorepo project by lerna",
   "scripts": {
-    "tips": "请先看 README.md",
     "test": "dotenv lerna run test",
     "build": "dotenv lerna run build",
     "dev": "dotenv lerna run dev --parallel",
