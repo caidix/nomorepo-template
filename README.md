@@ -42,3 +42,13 @@ pnpm changeset pre enter rc      # 发布 rc 版本
 - execa
 - fs-extra
 - chalk
+
+### 希望依赖版本随时跟着其他依赖分包变更
+
+打开包package.json文件将依赖的版本修改成 * 号:
+
+```js
+"dependencies": {
+  "hello-world": "workspace:*" // * 代表默认同步最新版本，也可以用^1.0.0等方式
+},
+```
