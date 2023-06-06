@@ -1,0 +1,32 @@
+{
+  "name": "nomorepo-template",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "engines": {
+    "node": ">=16",
+    "pnpm": ">=7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "clean": "rimraf dist types \"packages/*/dist\"",
+    "changeset": "changeset",
+    "changeset:publish": "changeset publish",
+    "version:changeset": "changeset version",
+    "preinstall": "node ./only-allow.js"
+  },
+  "devDependencies": {
+    "@changesets/changelog-git": "^0.1.14",
+    "@changesets/cli": "^2.26.1",
+    "@types/node": "^20.2.5",
+    "simple-git-hooks": "^2.8.1",
+    "typescript": "^5.1.3"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged",
+    "commit-msg": "npx --no -- commitlint --edit ${1}"
+  }
+}
